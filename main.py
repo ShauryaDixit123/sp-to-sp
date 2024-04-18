@@ -3,10 +3,12 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 from gtts import gTTS
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route("/ping")
@@ -53,6 +55,7 @@ def didIAskQuestion():
          return str(e)
          
     
+app.config["DEBUG"] = os.environ.get("DEBUG")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run()
